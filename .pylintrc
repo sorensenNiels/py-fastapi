@@ -1,0 +1,5 @@
+[BASIC]
+dummy-variables-rgx=_.*
+
+[CLASS]
+min-public-methods=0
