@@ -7,7 +7,7 @@ dev-dependencies:
 dependencies: prod-dependencies dev-dependencies
 
 start:
-	uvicorn app:app --reload
+	cd py_fastapi && uvicorn py_fastapi.app:app --reload
 
 postgresql:
 	docker run --name postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres
