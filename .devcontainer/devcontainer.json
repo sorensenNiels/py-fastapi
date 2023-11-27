@@ -25,6 +25,7 @@
 			],
 			"settings": {
 				"editor.formatOnSave": true,
+				"files.eol": "\n",
 				"[python]": {
 					"editor.defaultFormatter": "ms-python.black-formatter"
 				}
