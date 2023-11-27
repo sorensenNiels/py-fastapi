@@ -7,7 +7,7 @@ python3 -m venv venv
 source venv/bin/activate
 
 # Install Poetry
-pipx install poetry
+# pipx install poetry
 
 # Upgrade pip
 # pip install --upgrade pip

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "py-fastapi"
+name = "py_fastapi"
 version = "0.1.0"
 description = "A starter project using fastapi"
 authors = ["Niels P. Sorensen <sorensen.niels@gmail.com>"]

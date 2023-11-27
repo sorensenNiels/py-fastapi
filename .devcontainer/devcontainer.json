@@ -9,7 +9,8 @@
 	},
 	"features": {
 		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
-		"ghcr.io/jungaretti/features/make:1": {}
+		"ghcr.io/jungaretti/features/make:1": {},
+		"ghcr.io/devcontainers-contrib/features/poetry:2": {}
 	},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
@@ -21,7 +22,7 @@
 			"extensions": [
 				"phind.phind",
 				"ms-python.black-formatter",
-				"ms-python.pylint",
+				"ms-python.flake8",
 				"cweijan.vscode-database-client2"
 			],
 			"settings": {
