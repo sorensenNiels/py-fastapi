@@ -23,13 +23,17 @@
 				"phind.phind",
 				"ms-python.black-formatter",
 				"ms-python.flake8",
-				"cweijan.vscode-database-client2"
+				"cweijan.vscode-database-client2",
+				"ms-python.isort"
 			],
 			"settings": {
 				"editor.formatOnSave": true,
 				"files.eol": "\n",
 				"[python]": {
-					"editor.defaultFormatter": "ms-python.black-formatter"
+					"editor.defaultFormatter": "ms-python.black-formatter",
+					"editor.codeActionsOnSave": {
+						"source.organizeImports": true
+					}
 				}
 			}
 		}
