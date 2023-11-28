@@ -1,9 +1,8 @@
 """ Models """
 
 
-from sqlalchemy import Boolean, Column, Integer, String
-
 from database import Base
+from sqlalchemy import Boolean, Column, Integer, String
 
 
 class Todo(Base):

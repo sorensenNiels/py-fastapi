@@ -2,19 +2,27 @@
 This is a simple example of using FastAPI with Jinja2
 """
 
+import logging
+
+import models  # is the same as from . import models
 from fastapi import Depends, FastAPI, Form, Request, status
 from sqlalchemy.orm import Session
 from starlette.responses import RedirectResponse
 from starlette.templating import Jinja2Templates
 
-import models
-from database import SessionLocal, engine
+from .database import SessionLocal, engine
+from .utils import helloWorld
+
+logging.basicConfig(level=logging.INFO)
 
 models.Base.metadata.create_all(bind=engine)
 
 templates = Jinja2Templates(directory="templates")
 
 app = FastAPI()
+
+log = logging.getLogger(__name__)
+log.info(helloWorld())
 
 
 def get_db():
