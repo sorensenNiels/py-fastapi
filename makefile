@@ -1,10 +1,5 @@
-prod-dependencies:
-	pip install -r requirements.txt
-
-dev-dependencies:
-	pip install -r requirements-dev.txt
-
-dependencies: prod-dependencies dev-dependencies
+poetry-environments:
+	poetry env list
 
 start:
 	cd py_fastapi && uvicorn py_fastapi.app:app --reload
