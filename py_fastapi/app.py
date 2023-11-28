@@ -2,12 +2,13 @@
 This is a simple example of using FastAPI with Jinja2
 """
 
-import models
-from database import SessionLocal, engine
 from fastapi import Depends, FastAPI, Form, Request, status
 from sqlalchemy.orm import Session
 from starlette.responses import RedirectResponse
 from starlette.templating import Jinja2Templates
+
+import models
+from database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 

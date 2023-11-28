@@ -20,7 +20,6 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"phind.phind",
 				"ms-python.black-formatter",
 				"ms-python.flake8",
 				"cweijan.vscode-database-client2",
