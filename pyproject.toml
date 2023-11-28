@@ -22,8 +22,6 @@ isort = "^5.12.0"
 
 [tool.isort]
 profile = "black"
-known_first_party = ["models", "database"]
-sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
 
 [build-system]
 requires = ["poetry-core"]
