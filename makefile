@@ -2,7 +2,7 @@ poetry-environments:
 	poetry env list
 
 start:
-	cd py_fastapi && uvicorn py_fastapi.app:app --reload
+	cd todo_fastapi && uvicorn todo_fastapi.app:app --reload
 
 postgresql:
 	docker run --name postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres
