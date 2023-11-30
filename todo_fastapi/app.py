@@ -5,6 +5,7 @@ This is a simple example of using FastAPI with Jinja2
 import logging
 
 import models  # is the same as from . import models
+from config import settings
 from database import SessionLocal, engine
 from fastapi import Depends, FastAPI, Form, Request, status
 from sqlalchemy.orm import Session
@@ -17,6 +18,8 @@ logging.basicConfig(level=logging.INFO)
 models.Base.metadata.create_all(bind=engine)
 
 templates = Jinja2Templates(directory="templates")
+
+settings.set_debug(True)
 
 app = FastAPI()
 
@@ -43,7 +46,9 @@ def home(request: Request, db: Session = Depends(get_db)):
 
 
 @app.post("/add")
-def add(_request: Request, title: str = Form(...), db: Session = Depends(get_db)):
+def add(
+    _request: Request, title: str = Form(...), db: Session = Depends(get_db)
+):
     """Add a Todo"""
     new_todo = models.Todo(title=title)
     db.add(new_todo)

@@ -23,7 +23,8 @@
 				"ms-python.black-formatter",
 				"ms-python.flake8",
 				"cweijan.vscode-database-client2",
-				"ms-python.isort"
+				"ms-python.isort",
+				"aaron-bond.better-comments"
 			],
 			"settings": {
 				"editor.formatOnSave": true,

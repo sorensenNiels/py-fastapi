@@ -23,7 +23,9 @@ def postgres_uri() -> str:
     if value:
         return value
 
-    raise EnvironmentError('Required environment variable "POSTGRES_URI" is missing')
+    raise EnvironmentError(
+        'Required environment variable "POSTGRES_URI" is missing'
+    )
 
 
 def secret_key() -> typing.Optional[str]:
@@ -41,7 +43,9 @@ def discord_client_id() -> typing.Optional[str]:
     value = os.environ.get("DISCORD_CLIENT_ID", 0)
 
     if not value:
-        log.warning('Optional environment variable "DISCORD_CLIENT_ID" is missing')
+        log.warning(
+            'Optional environment variable "DISCORD_CLIENT_ID" is missing'
+        )
 
     return value
 
@@ -51,7 +55,9 @@ def discord_client_secret() -> typing.Optional[str]:
     value = os.environ.get("DISCORD_CLIENT_SECRET", "")
 
     if not value:
-        log.warning('Optional environment variable "DISCORD_CLIENT_SECRET" is missing')
+        log.warning(
+            'Optional environment variable "DISCORD_CLIENT_SECRET" is missing'
+        )
 
     return value
 
@@ -61,7 +67,9 @@ def test_postgres_uri() -> typing.Optional[str]:
     value = os.environ.get("TEST_POSTGRES_URI", "")
 
     if not value:
-        log.warning('Optional environment variable "TEST_POSTGRES_URI" is missing')
+        log.warning(
+            'Optional environment variable "TEST_POSTGRES_URI" is missing'
+        )
 
     return value
 
@@ -81,7 +89,9 @@ def test_redis_uri() -> typing.Optional[str]:
     value = os.environ.get("TEST_REDIS_URI")
 
     if not value:
-        log.warning('Optional environment variable "TEST_REDIS_URI" is missing')
+        log.warning(
+            'Optional environment variable "TEST_REDIS_URI" is missing'
+        )
 
     return value
 

@@ -1,6 +1,5 @@
 """ Models """
 
-
 from database import Base
 from sqlalchemy import Boolean, Column, Integer, String
 
