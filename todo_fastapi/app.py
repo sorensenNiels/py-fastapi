@@ -5,13 +5,12 @@ This is a simple example of using FastAPI with Jinja2
 import logging
 
 import models  # is the same as from . import models
+from database import SessionLocal, engine
 from fastapi import Depends, FastAPI, Form, Request, status
 from sqlalchemy.orm import Session
 from starlette.responses import RedirectResponse
 from starlette.templating import Jinja2Templates
-
-from .database import SessionLocal, engine
-from .utils import helloWorld
+from utils import helloWorld
 
 logging.basicConfig(level=logging.INFO)
 
@@ -74,3 +73,9 @@ def delete(_request: Request, todo_id: int, db: Session = Depends(get_db)):
 
     url = app.url_path_for("home")
     return RedirectResponse(url=url, status_code=status.HTTP_302_FOUND)
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
