@@ -31,6 +31,7 @@
 				"editor.formatOnSave": true,
 				"files.eol": "\n",
 				"python.defaultInterpreterPath": "${env:VIRTUAL_ENV}",
+				"python.analysis.typeCheckingMode": "strict",
 				"[python]": {
 					"editor.defaultFormatter": "ms-python.black-formatter",
 					"editor.codeActionsOnSave": {
