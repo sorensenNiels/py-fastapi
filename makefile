@@ -81,31 +81,21 @@ docs:             ## Build the documentation.
 shell:            ## Open a shell in the project.
 	poetry shell
 
+start: 
+	echo "Starting FastAPI"
+	uvicorn fastapi_example.app:app
 
-.PHONY: docker-build
-docker-build:	  ## Builder docker images
-	@docker-compose -f docker-compose-dev.yaml -p ${PACKAGE_NAME} build
+start-gunicorn:
+	echo "Starting FastAPI using gunicorn "
+	gunicorn fastapi_example.app:app --workers=5 --worker-class=uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000
 
-.PHONY: docker-run
-docker-run:  	  ## Run docker development images
-	@docker-compose -f docker-compose-dev.yaml -p ${PACKAGE_NAME} up -d
+docker-build:
+	echo "Building local docker image"
+	docker build -t fastapi_example .
 
-.PHONY: docker-stop
-docker-stop: 	  ## Bring down docker dev environment
-	@docker-compose -f docker-compose-dev.yaml -p ${PACKAGE_NAME} down
-
-.PHONY: docker-ps
-docker-ps: 	  ## Bring down docker dev environment
-	@docker-compose -f docker-compose-dev.yaml -p ${PACKAGE_NAME} ps
-
-.PHONY: docker-log
-docker-logs: 	  ## Bring down docker dev environment
-	@docker-compose -f docker-compose-dev.yaml -p ${PACKAGE_NAME} logs -f app
-
-
-start:
-	echo "Starting FastAPI in $(test) environment"
-	python ./${PACKAGE_NAME}/app.py
+docker-run:
+	echo "Run local docker container"
+	docker run -it --rm -p 8000:8000 fastapi_example
 
 postgresql:
 	docker run --name postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres

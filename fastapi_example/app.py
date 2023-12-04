@@ -1,6 +1,7 @@
 import io
 import os
 
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
@@ -26,7 +27,16 @@ description = """
 fastapi_example API helps you do awesome stuff. 🚀
 """
 
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    print("Inside lifespan function")
+    create_db_and_tables(engine)
+    yield
+
+
 app = FastAPI(
+    lifespan=lifespan,
     title="fastapi_example",
     description=description,
     version=read("VERSION"),
@@ -54,6 +64,6 @@ if settings.server and settings.server.get("cors_origins", None):
 app.include_router(main_router)
 
 
-@app.on_event("startup")
-def on_startup():
-    create_db_and_tables(engine)
+# @app.on_event("startup")
+# def on_startup():
+#     create_db_and_tables(engine)

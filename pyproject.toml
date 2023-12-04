@@ -19,6 +19,7 @@ python-jose = { extras = ["cryptography"], version = "^3.3.0" }
 passlib = { extras = ["argon2"], version = "^1.7.4" }
 psycopg2-binary = "^2.9.9"
 sqlmodel = "^0.0.12"
+gunicorn = "^21.2.0"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.1.0"

@@ -44,4 +44,5 @@ USER app
 
 EXPOSE 8000
 
-CMD [".venv/bin/uvicorn", "fastapi_example.app:app", "--host=0.0.0.0","--port=8000","--reload"]
+# CMD [".venv/bin/uvicorn", "fastapi_example.app:app", "--host=0.0.0.0","--port=8000"]
+CMD [".venv/bin/gunicorn", "fastapi_example.app:app", "--workers=1", "--worker-class=uvicorn.workers.UvicornWorker", "--bind=0.0.0.0:8000"]
