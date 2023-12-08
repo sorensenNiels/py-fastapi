@@ -1,3 +1,4 @@
+# Development
 [development]
 dynaconf_merge = true
 
@@ -9,6 +10,16 @@ log_level = "debug"
 reload = true
 cors_origins = ["http://localhost:3000", "http://localhost:4200"]
 
+
+# Testing
+[testing]
+dynaconf_merge = true
+
+[testing.server]
+cors_origins = ["http://localhost:3000", "http://localhost:4200"]
+
+
+# Production
 [production]
 dynaconf_merge = true
 
@@ -18,9 +29,3 @@ echo = false
 [production.server]
 log_level = "error"
 reload = false
-
-[testing]
-dynaconf_merge = true
-
-[testing.server]
-cors_origins = ["http://localhost:3000", "http://localhost:4200"]
