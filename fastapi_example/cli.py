@@ -6,7 +6,7 @@ from .app import app
 from .config import settings
 from .db import create_db_and_tables, engine
 from .models.content import Content
-from .security import User
+from .security import HashedPassword, User
 
 cli = typer.Typer(name="fastapi_example API")
 
@@ -29,7 +29,7 @@ def run(
 
 
 @cli.command()
-def create_user(username: str, password: str, superuser: bool = False):
+def create_user(username: str, password: HashedPassword, superuser: bool = False):
     """Create user"""
     create_db_and_tables(engine)
     with Session(engine) as session:

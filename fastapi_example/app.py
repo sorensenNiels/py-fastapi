@@ -1,13 +1,18 @@
 import io
+import logging
 import os
-
 from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from .config import settings
 from .db import create_db_and_tables, engine
 from .routes import main_router
+
+logging.basicConfig(level=logging.DEBUG)
+
+logger = logging.getLogger(__name__)
 
 
 def read(*paths, **kwargs):
@@ -30,7 +35,7 @@ fastapi_example API helps you do awesome stuff. 🚀
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
-    print("Inside lifespan function")
+    logger.info("---> Inside lifespan function")
     create_db_and_tables(engine)
     yield
 
@@ -52,6 +57,7 @@ app = FastAPI(
     },
 )
 
+
 if settings.server and settings.server.get("cors_origins", None):
     app.add_middleware(
         CORSMiddleware,
@@ -62,8 +68,3 @@ if settings.server and settings.server.get("cors_origins", None):
     )
 
 app.include_router(main_router)
-
-
-# @app.on_event("startup")
-# def on_startup():
-#     create_db_and_tables(engine)

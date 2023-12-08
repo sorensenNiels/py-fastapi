@@ -1,6 +1,7 @@
 .ONESHELL:
 ENV_PREFIX=$(shell python -c "if __import__('pathlib').Path('.venv/bin/pip').exists(): print('.venv/bin/')")
 PACKAGE_NAME=fastapi_example
+POETRY_VERSION=1.7.1
 
 .PHONY: show
 show:             ## Show the current environment.
@@ -87,15 +88,16 @@ start:
 
 start-gunicorn:
 	echo "Starting FastAPI using gunicorn "
-	gunicorn fastapi_example.app:app --workers=5 --worker-class=uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000
+	gunicorn fastapi_example.app:app --workers=2 --worker-class=uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000 --access-logfile -
 
 docker-build:
 	echo "Building local docker image"
-	docker build -t fastapi_example .
+	docker build -t fastapi_example --build-arg POETRY_VERSION=${POETRY_VERSION} .
 
 docker-run:
 	echo "Run local docker container"
-	docker run -it --rm -p 8000:8000 fastapi_example
+	@-docker volume create --name=fastapi_example
+	docker run -it --rm -v fastapi_example:/app/data -p 8000:8000 fastapi_example
 
 postgresql:
 	docker run --name postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres

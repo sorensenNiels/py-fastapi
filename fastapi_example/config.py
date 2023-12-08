@@ -1,3 +1,4 @@
+import logging
 import os
 
 from dynaconf import Dynaconf
@@ -6,12 +7,17 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 settings = Dynaconf(
     envvar_prefix="fastapi_example",
-    preload=[os.path.join(HERE, "default.toml")],
-    settings_files=["settings.toml", ".secrets.toml"],
+    # preload=[os.path.join(HERE, "default.toml")],
+    preload=["config/default.toml"],
+    settings_files=["config/settings.toml", "config/.secrets.toml"],
     environments=["development", "production", "testing"],
     env_switcher="fastapi_example_env",
     load_dotenv=False,
 )
+
+
+def getLogLevel():
+    return logging.getLevelName(settings.LOG_LEVEL)
 
 
 """

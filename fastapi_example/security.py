@@ -105,11 +105,11 @@ class UserPasswordPatch(SQLModel):
     password_confirm: str
 
 
-def verify_password(plain_password, hashed_password) -> bool:
+def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
 
-def get_password_hash(password) -> str:
+def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
 
@@ -146,7 +146,7 @@ def authenticate_user(
     return user
 
 
-def get_user(username) -> Optional[User]:
+def get_user(username: str) -> Optional[User]:
     with Session(engine) as session:
         return session.query(User).where(User.username == username).first()
 
@@ -169,16 +169,20 @@ def get_current_user(
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
+        username = payload.get("sub")
 
         if username is None:
             raise credentials_exception
+
         token_data = TokenData(username=username)
     except JWTError:
         raise credentials_exception
-    user = get_user(username=token_data.username)
+
+    user = get_user(username=token_data.username or "")
+
     if user is None:
         raise credentials_exception
+
     if fresh and (not payload["fresh"] and not user.superuser):
         raise credentials_exception
 
