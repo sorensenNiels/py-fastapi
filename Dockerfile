@@ -36,6 +36,7 @@ RUN poetry install --no-dev --no-interaction --no-ansi --no-root && rm -rf $POET
 FROM python:3.12-slim-bookworm as py-runtime
 
 ARG WORK_DIR=app
+ARG PYTHON_ENV=development
 
 # Setup path to virtual environment
 ENV VIRTUAL_ENV=/${WORK_DIR}/.venv 
@@ -61,11 +62,13 @@ COPY config ./config
 
 # entrypoint using gunicorn (multi workers)
 # RUN echo "#!/bin/sh" > entrypoint.sh
+# RUN echo PYTHON_ENV=${PYTHON_ENV} >> entrypoint.sh
 # RUN echo "gunicorn fastapi_example.app:app --workers=5 --worker-class=uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000 --access-logfile -" >> entrypoint.sh
 # RUN chmod +x entrypoint.sh
 
 # entrypoint using uvicorn (one worker)
 RUN echo "#!/bin/sh" > entrypoint.sh
+RUN echo PYTHON_ENV=${PYTHON_ENV} >> entrypoint.sh
 RUN echo "uvicorn fastapi_example.app:app --host=0.0.0.0 --port=8000"  >> entrypoint.sh
 RUN chmod +x entrypoint.sh
 

@@ -6,18 +6,23 @@ from dynaconf import Dynaconf
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 settings = Dynaconf(
-    envvar_prefix="fastapi_example",
+    envvar_prefix="PYTHON",
     # preload=[os.path.join(HERE, "default.toml")],
     preload=["config/default.toml"],
     settings_files=["config/settings.toml", "config/.secrets.toml"],
     environments=["development", "production", "testing"],
-    env_switcher="fastapi_example_env",
+    env_switcher="PYTHON_ENV",
     load_dotenv=False,
 )
 
 
-def getLogLevel():
-    return logging.getLevelName(settings.LOG_LEVEL)
+def setLogBasicConfig():
+    logLevel = settings.LOG_LEVEL
+    logging.basicConfig(
+        level=logLevel,
+        format="%(asctime)s %(levelname)s %(name)s %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
 
 
 """

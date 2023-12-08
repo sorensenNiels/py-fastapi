@@ -6,11 +6,11 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from .config import settings
+from .config import setLogBasicConfig, settings
 from .db import create_db_and_tables, engine
 from .routes import main_router
 
-logging.basicConfig(level=logging.DEBUG)
+setLogBasicConfig()
 
 logger = logging.getLogger(__name__)
 
