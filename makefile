@@ -7,6 +7,7 @@ clean:            ## Clean unused files.
 	@find ./ -name '__pycache__' -exec rm -rf {} \;
 	@find ./ -name 'Thumbs.db' -exec rm -f {} \;
 	@find ./ -name '*~' -exec rm -f {} \;
+	@find ./ -name '.venv' -exec rm -rf {} \;
 	@rm -rf .cache
 	@rm -rf .pytest_cache
 	@rm -rf .mypy_cache
@@ -16,6 +17,8 @@ clean:            ## Clean unused files.
 	@rm -rf htmlcov
 	@rm -rf .tox/
 	@rm -rf docs/_build
+	@rm -rf .venv
+
 
 docker-build-fastapi_example:
 	echo "Building local docker image"
@@ -27,8 +30,10 @@ docker-run-fastapi_example:
 	@-docker volume create --name=fastapi_example
 	docker run -it --rm -v fastapi_example:/app/data -p 8000:8000 fastapi_example
 
+
 postgresql:
 	docker run --name postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres
+
 
 redis:
 	docker run --name redis -p 6379:6379 -d redis
