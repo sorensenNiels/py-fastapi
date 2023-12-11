@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
+from utilities import hello_world
 
 from .config import getAPIVersion, setLogBasicConfig, settings
 from .db import create_db_and_tables, engine
@@ -23,6 +24,8 @@ async def lifespan(_app: FastAPI):
     create_db_and_tables(engine)
     yield
 
+
+logger.info("---> Hello World: %s", hello_world())
 
 app = FastAPI(
     lifespan=lifespan,

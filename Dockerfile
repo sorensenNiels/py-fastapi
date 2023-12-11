@@ -26,6 +26,7 @@ RUN touch README.md
 
 # Copy required files for building
 COPY pyproject.toml poetry.lock ./
+COPY packages ./packages
 
 # RUN poetry config virtualenvs.create false
 RUN poetry install --no-dev --no-interaction --no-ansi --no-root && rm -rf $POETRY_CACHE_DIR
@@ -53,6 +54,8 @@ RUN mkdir /${WORK_DIR}/data && chown -R app:app /${WORK_DIR}/data
 
 # Get the dependencies from build step
 COPY --from=py-builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
+COPY packages ./packages
+
 
 # Provide required files for runtime
 COPY fastapi_example ./fastapi_example
