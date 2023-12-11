@@ -3,7 +3,13 @@ import os
 
 from dynaconf import Dynaconf
 
+from fastapi_example.utils.read_text_file import readTextFile
+
 HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT_FOLDER = os.path.dirname(HERE)
+CONFIG_FOLDER = os.path.join(ROOT_FOLDER, "config")
+
+logger = logging.getLogger(__name__)
 
 settings = Dynaconf(
     envvar_prefix="PYTHON",
@@ -14,6 +20,12 @@ settings = Dynaconf(
     env_switcher="PYTHON_ENV",
     load_dotenv=False,
 )
+
+
+def getAPIVersion():
+    version = readTextFile(os.path.join(CONFIG_FOLDER, "VERSION"))
+    logger.info("API version: %s", version)
+    return version
 
 
 def setLogBasicConfig():

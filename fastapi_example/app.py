@@ -1,32 +1,16 @@
-import io
 import logging
-import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from .config import setLogBasicConfig, settings
+from .config import getAPIVersion, setLogBasicConfig, settings
 from .db import create_db_and_tables, engine
 from .routes import main_router
 
 setLogBasicConfig()
 
 logger = logging.getLogger(__name__)
-
-
-def read(*paths, **kwargs):
-    """Read the contents of a text file safely.
-    >>> read("VERSION")
-    """
-    content = ""
-    with io.open(
-        os.path.join(os.path.dirname(__file__), *paths),
-        encoding=kwargs.get("encoding", "utf8"),
-    ) as open_file:
-        content = open_file.read().strip()
-    return content
-
 
 description = """
 fastapi_example API helps you do awesome stuff. 🚀
@@ -44,7 +28,7 @@ app = FastAPI(
     lifespan=lifespan,
     title="fastapi_example",
     description=description,
-    version=read("VERSION"),
+    version=getAPIVersion(),
     terms_of_service="http://fastapi_example.com/terms/",
     contact={
         "name": "sorensenNiels",
