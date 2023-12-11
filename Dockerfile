@@ -55,7 +55,7 @@ RUN mkdir /${WORK_DIR}/data && chown -R app:app /${WORK_DIR}/data
 COPY --from=py-builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 # Provide required files for runtime
-COPY src ./src
+COPY fastapi_example ./fastapi_example
 COPY config ./config
 
 COPY bin/ ./bin

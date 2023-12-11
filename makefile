@@ -98,11 +98,16 @@ docker-build-alpine:
 	echo "Building local docker image (alpine)"
 	docker build -t fastapi_example_alpine --build-arg POETRY_VERSION=${POETRY_VERSION} -f ./Dockerfile.alpine .
 
-
 docker-run:
 	echo "Run local docker container"
 	@-docker volume create --name=fastapi_example
 	docker run -it --rm -v fastapi_example:/app/data -p 8000:8000 fastapi_example
+
+docker-run-alpine:
+	echo "Run local docker container"
+	@-docker volume create --name=fastapi_example
+	docker run -it --rm -v fastapi_example:/app/data -p 8000:8000 fastapi_example_alpine
+
 
 postgresql:
 	docker run --name postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres
