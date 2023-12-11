@@ -94,6 +94,11 @@ docker-build:
 	echo "Building local docker image"
 	docker build -t fastapi_example --build-arg POETRY_VERSION=${POETRY_VERSION} .
 
+docker-build-alpine:
+	echo "Building local docker image (alpine)"
+	docker build -t fastapi_example_alpine --build-arg POETRY_VERSION=${POETRY_VERSION} -f ./Dockerfile.alpine .
+
+
 docker-run:
 	echo "Run local docker container"
 	@-docker volume create --name=fastapi_example
