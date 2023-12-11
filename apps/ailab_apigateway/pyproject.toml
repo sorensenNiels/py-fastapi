@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "ailab-apigateway"
+version = "0.1.0"
+description = "Langchain api gateway"
+authors = ["The AILAB Team <ailab@lionbrain.com>"]
+readme = "README.md"
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.104.1"
+uvicorn = { extras = ["standard"], version = "^0.24.0.post1" }
+python-multipart = "^0.0.6"
+jinja2 = "^3.1.2"
+python-dotenv = "^1.0.0"
+typer = "^0.9.0"
+dynaconf = "^3.2.4"
+gunicorn = "^21.2.0"
+langchain = "^0.0.348"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^6.1.0"
+black = "^23.11.0"
+pytest = "^7.4.3"
+pytest-cov = "^4.1.0"
+flake8-unused-arguments = "^0.0.13"
+isort = "^5.12.0"
+coverage = "^7.3.2"
+codecov = "^2.1.13"
+mypy = "^1.7.1"
+gitchangelog = "^3.0.4"
+mkdocs = "^1.5.3"
+pytest-picked = "^0.5.0"
+langserve = "^0.0.27"
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+ailab_apigateway = 'ailab_apigateway.__main__:main'

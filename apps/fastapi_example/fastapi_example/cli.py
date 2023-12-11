@@ -8,7 +8,7 @@ from .db import create_db_and_tables, engine
 from .models.content import Content
 from .security import HashedPassword, User
 
-cli = typer.Typer(name="fastapi_example API")
+cli = typer.Typer(name="ailab_apigateway API")
 
 
 @cli.command()
@@ -20,7 +20,7 @@ def run(
 ):  # pragma: no cover
     """Run the API server."""
     uvicorn.run(
-        "fastapi_example.app:app",
+        "ailab_apigateway.app:app",
         host=host,
         port=port,
         log_level=log_level,

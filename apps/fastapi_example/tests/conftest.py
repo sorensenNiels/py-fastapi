@@ -8,9 +8,9 @@ from typer.testing import CliRunner
 
 # This next line ensures tests uses its own database and settings environment
 os.environ["FORCE_ENV_FOR_DYNACONF"] = "testing"  # noqa
-# WARNING: Ensure imports from `fastapi_example` comes after this line
-from fastapi_example import app, db, settings  # noqa
-from fastapi_example.cli import cli, create_user  # noqa
+# WARNING: Ensure imports from `ailab_apigateway` comes after this line
+from ailab_apigateway import app, db, settings  # noqa
+from ailab_apigateway.cli import cli, create_user  # noqa
 
 
 # each test runs on cwd to its temp dir

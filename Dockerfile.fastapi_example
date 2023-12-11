@@ -4,7 +4,7 @@
 FROM python:3.12-bookworm as py-builder
 
 ARG POETRY_VERSION=1.7.1
-ARG APP=fastapi_example
+ARG APP=ailab_apigateway
 
 # Install OS packages for building
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
@@ -36,7 +36,7 @@ FROM python:3.12-alpine3.19 as py-runtime
 
 ARG WORK_DIR=app
 ARG PYTHON_ENV=development
-ARG APP=fastapi_example
+ARG APP=ailab_apigateway
 
 # Setup path to virtual environment
 ENV VIRTUAL_ENV=/${WORK_DIR}/apps/${APP}/.venv 

@@ -1,14 +1,13 @@
 from datetime import datetime, timedelta
 from typing import Callable, List, Optional, Union
 
+from ailab_apigateway.models.content import Content, ContentResponse
 from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from sqlmodel import Field, Relationship, Session, SQLModel
-
-from fastapi_example.models.content import Content, ContentResponse
 
 from .config import settings
 from .db import engine

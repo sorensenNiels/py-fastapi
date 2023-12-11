@@ -1,9 +1,8 @@
 import logging
 import os
 
+from ailab_apigateway.utils.read_text_file import readTextFile
 from dynaconf import Dynaconf
-
-from fastapi_example.utils.read_text_file import readTextFile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT_FOLDER = os.path.dirname(HERE)
@@ -41,7 +40,7 @@ def setLogBasicConfig():
 # How to use this application settings
 
 ```
-from fastapi_example.config import settings
+from ailab_apigateway.config import settings
 ```
 
 ## Acessing variables
@@ -76,7 +75,7 @@ export fastapi_example_DB__uri="@jinja {{ this.db.uri | replace('db', 'data') }}
 
 ### Switching environments
 ```
-fastapi_example_ENV=production fastapi_example run
+fastapi_example_ENV=production ailab_apigateway run
 ```
 
 Read more on https://dynaconf.com

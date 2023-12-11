@@ -20,15 +20,15 @@ clean:            ## Clean unused files.
 	@rm -rf .venv
 
 
-docker-build-fastapi_example:
+docker-build-ailab_apigateway:
 	echo "Building local docker image"
-	docker build -t fastapi_example --build-arg POETRY_VERSION=${POETRY_VERSION} -f Dockerfile.fastapi_example .
+	docker build -t ailab_apigateway --build-arg POETRY_VERSION=${POETRY_VERSION} -f Dockerfile.ailab_apigateway .
 
 
-docker-run-fastapi_example:
+docker-run-ailab_apigateway:
 	echo "Run local docker container"
-	@-docker volume create --name=fastapi_example
-	docker run -it --rm -v fastapi_example:/app/data -p 8000:8000 fastapi_example
+	@-docker volume create --name=ailab_apigateway
+	docker run -it --rm -v ailab_apigateway:/app/data -p 8000:8000 ailab_apigateway
 
 
 postgresql:

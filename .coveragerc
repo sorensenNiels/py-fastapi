@@ -1,8 +1,8 @@
 [run]
-source = fastapi_example
+source = ailab_apigateway
 
 [report]
 omit =
     */python?.?/*
     */site-packages/nose/*
-    fastapi_example/__main__.py
+    ailab_apigateway/__main__.py
