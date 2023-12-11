@@ -38,10 +38,6 @@ FROM python:3.12-alpine3.19 as py-runtime
 ARG WORK_DIR=app
 ARG PYTHON_ENV=development
 
-# Install OS packages for runtime
-RUN apk --no-cache add \
-    "bash~=5.2" 
-
 # Setup path to virtual environment
 ENV VIRTUAL_ENV=/${WORK_DIR}/.venv 
 ENV PATH="${VIRTUAL_ENV}/bin:$PATH"
