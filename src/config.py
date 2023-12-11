@@ -3,7 +3,7 @@ import os
 
 from dynaconf import Dynaconf
 
-from fastapi_example.utils.read_text_file import readTextFile
+from src.utils.read_text_file import readTextFile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT_FOLDER = os.path.dirname(HERE)

@@ -55,26 +55,15 @@ RUN mkdir /${WORK_DIR}/data && chown -R app:app /${WORK_DIR}/data
 COPY --from=py-builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 # Provide required files for runtime
-COPY fastapi_example ./fastapi_example
+COPY src ./src
 COPY config ./config
-# COPY settings.toml .
-# COPY .secrets.toml .
 
-# entrypoint using gunicorn (multi workers)
-# RUN echo "#!/bin/sh" > entrypoint.sh
-# RUN echo PYTHON_ENV=${PYTHON_ENV} >> entrypoint.sh
-# RUN echo "gunicorn fastapi_example.app:app --workers=5 --worker-class=uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000 --access-logfile -" >> entrypoint.sh
-# RUN chmod +x entrypoint.sh
-
-# entrypoint using uvicorn (one worker)
-RUN echo "#!/bin/sh" > entrypoint.sh
-RUN echo PYTHON_ENV=${PYTHON_ENV} >> entrypoint.sh
-RUN echo "uvicorn fastapi_example.app:app --host=0.0.0.0 --port=8000"  >> entrypoint.sh
-RUN chmod +x entrypoint.sh
+COPY bin/ ./bin
+# RUN chmod +x ./bin/takeoff.sh
 
 USER app
 
 EXPOSE 8000
 VOLUME [ "${WORK_DIR}/data" ]
 
-CMD [ "./entrypoint.sh" ]
+CMD [ "./bin/takeoff.sh" ]
