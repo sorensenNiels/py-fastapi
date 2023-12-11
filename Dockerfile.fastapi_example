@@ -4,6 +4,7 @@
 FROM python:3.12-bookworm as py-builder
 
 ARG POETRY_VERSION=1.7.1
+ARG APP=fastapi_example
 
 # Install OS packages for building
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
@@ -21,14 +22,12 @@ ENV POETRY_NO_INTERACTION=1 \
 # Set working directory
 WORKDIR /app
 
-# Create dummy README.md to prevent poetry from failing
-RUN touch README.md
-
 # Copy required files for building
-COPY pyproject.toml poetry.lock ./
+COPY apps/${APP}/pyproject.toml /apps/${APP}/poetry.lock ./apps/${APP}/
+COPY packages ./packages
+RUN touch ./apps/${APP}/README.md
 
-# RUN poetry config virtualenvs.create false
-RUN poetry install --no-dev --no-interaction --no-ansi --no-root && rm -rf $POETRY_CACHE_DIR
+RUN cd ./apps/${APP} && poetry install --no-dev --no-interaction --no-ansi --no-root && rm -rf $POETRY_CACHE_DIR
 
 # ------------------------------------------------------------------------
 # PY-RUNTIME
@@ -37,9 +36,10 @@ FROM python:3.12-alpine3.19 as py-runtime
 
 ARG WORK_DIR=app
 ARG PYTHON_ENV=development
+ARG APP=fastapi_example
 
 # Setup path to virtual environment
-ENV VIRTUAL_ENV=/${WORK_DIR}/.venv 
+ENV VIRTUAL_ENV=/${WORK_DIR}/apps/${APP}/.venv 
 ENV PATH="${VIRTUAL_ENV}/bin:$PATH"
 
 # Create the app user and home folder
@@ -48,21 +48,22 @@ RUN addgroup -S app && adduser -S app -G app
 WORKDIR /${WORK_DIR}
 
 # Create data folder
-RUN mkdir /${WORK_DIR}/data && chown -R app:app /${WORK_DIR}/data
+RUN mkdir -p /${WORK_DIR}/apps/${APP}/data && chown -R app:app /${WORK_DIR}/apps/${APP}/data
 
 # Get the dependencies from build step
 COPY --from=py-builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
+COPY --from=py-builder /app/packages ./packages
+
+WORKDIR /${WORK_DIR}/apps/${APP}
 
 # Provide required files for runtime
-COPY fastapi_example ./fastapi_example
-COPY config ./config
+COPY apps/${APP} ./
 
-COPY bin/ ./bin
-RUN chmod +x ./bin/takeoff.sh
+COPY apps/${APP}/bin/ ./bin
 
 USER app
 
 EXPOSE 8000
-VOLUME [ "${WORK_DIR}/data" ]
+VOLUME [ "${WORK_DIR}/${APP}/data" ]
 
 CMD [ "./bin/takeoff.sh" ]

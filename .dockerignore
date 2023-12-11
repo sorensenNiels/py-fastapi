@@ -1,4 +1,12 @@
-.devcontainer
-.venv
+
+**/.devcontainer
+**/.venv
+
+**/Dockerfile*
+**/makefile
+
+**/tests
+**/dist
+
 
 **/__pycache__

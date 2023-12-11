@@ -1793,7 +1793,7 @@ develop = true
 
 [package.source]
 type = "directory"
-url = "packages/utilities"
+url = "../../packages/utilities"
 
 [[package]]
 name = "uvicorn"
@@ -2088,4 +2088,4 @@ requests = "*"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "e37efaf1a8b469c13b4eed318688930b9adee69f4a54d6cdb84fe9ddae081003"
+content-hash = "4f6d94c51512db520af72da9a0cd2d48f667e48a981a1d556a4cd3956a638170"
