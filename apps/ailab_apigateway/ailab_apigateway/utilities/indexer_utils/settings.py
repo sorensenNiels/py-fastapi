@@ -10,7 +10,7 @@ logging.getLogger().setLevel(logging.INFO)
 class IndexerSettings:
     _instance = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args, **kwarg):
         if cls._instance is None:
             cls._instance = super(IndexerSettings, cls).__new__(cls)
             cls._instance.__initialized = False

@@ -55,5 +55,4 @@ shell:            ## Open a shell in the project.
 
 start: 
 	echo "Starting FastAPI"
-	-@mkdir data
 	uvicorn ailab_apigateway.app:app

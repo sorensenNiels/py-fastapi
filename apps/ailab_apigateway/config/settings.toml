@@ -2,6 +2,7 @@
 [development]
 dynaconf_merge = true
 
+
 [development.db]
 echo = true
 
@@ -22,6 +23,8 @@ cors_origins = ["http://localhost:3000", "http://localhost:4200"]
 # Production
 [production]
 dynaconf_merge = true
+
+log_level = "ERROR"
 
 [production.db]
 echo = false

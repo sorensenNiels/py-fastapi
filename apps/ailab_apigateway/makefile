@@ -55,4 +55,4 @@ shell:            ## Open a shell in the project.
 
 start: 
 	echo "Starting FastAPI"
-	uvicorn ailab_apigateway.app:app
+	uvicorn ailab_apigateway.app:app --reload

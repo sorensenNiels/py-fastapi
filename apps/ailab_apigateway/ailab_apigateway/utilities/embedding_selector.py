@@ -4,6 +4,7 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 
 
 def embedding_selector(emb_name: str):
+    embeddings = None  # Initialize the embeddings variable with a default value
     if emb_name == "OpenAIEmbeddings":
         embeddings = OpenAIEmbeddings
     else:

@@ -1,7 +1,6 @@
 import logging
 from typing import List
 
-from dotenv import load_dotenv
 from fastapi import FastAPI
 from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory, RedisChatMessageHistory
@@ -9,6 +8,7 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.schema.document import Document
 from pydantic import BaseModel
 
+from .config import setLogBasicConfig, settings
 from .utilities.format_responses import ResponderWithDocument
 from .utilities.prompt_variables import template_history_prompt
 from .utilities.retriever import (
@@ -16,11 +16,9 @@ from .utilities.retriever import (
     document_retrieval,
     get_scores,
 )
-from .utilities.retriever_utils.settings import RAGRetrieverSettings
 from .utilities.retriever_utils.vectorstore_methods import get_vectorstore_connector
 
-load_dotenv()
-logging.getLogger().setLevel(logging.INFO)
+setLogBasicConfig()
 
 app = FastAPI()
 
@@ -38,27 +36,38 @@ class Request(BaseModel):
     question: str
 
 
-settings = RAGRetrieverSettings()
-
-
-def retrieve_docs_similar_to_question(
-    question: str, settings: RAGRetrieverSettings
-) -> List[Document]:
+def retrieve_docs_similar_to_question(question: str) -> List[Document]:
     """
     Return document chunks from vector database specified in the settings, based on similarity search with the question
     """
-    vectorstore = get_vectorstore_connector(settings)
+    vectorstore = get_vectorstore_connector()
     retrieved_documents = document_retrieval(
         vectorstore,
         question,
-        top_k=settings.top_k,
+        top_k=settings["top_k"],
         similarity_threshold=settings.similarity_threshold,
     )
     return retrieved_documents
 
 
+@app.get("/health")
+async def health() -> dict:
+    """
+    Check if the service is healthy.
+
+    Returns
+    -------
+    dict
+        A dictionary containing the status of the service.
+    """
+
+    environment = settings.get("ENV_FOR_DYNACONF")
+
+    return {"status": True, "environment": environment}
+
+
 @app.post("/ask")
-async def ask_question(request: Request) -> dict:
+async def ask_question(request: Request) -> dict | None:
     """
     Ask a question to a chatbot and get an answer.
 
@@ -73,7 +82,7 @@ async def ask_question(request: Request) -> dict:
         A dictionary containing the answer, documents, and scores.
     """
     question = request.question
-    retrieved_documents = retrieve_docs_similar_to_question(question, settings)
+    retrieved_documents = retrieve_docs_similar_to_question(question)
     logging.info(f"Retrieved documents: {retrieved_documents}")
     prompt = ChatPromptTemplate.from_template(template_history_prompt)
     model = ChatOpenAI()
@@ -96,4 +105,5 @@ async def ask_question(request: Request) -> dict:
             "scores": get_scores(retrieved_documents),
         }
     )
+
     return responder.produce_response()
