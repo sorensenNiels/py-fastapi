@@ -4,9 +4,7 @@ from enum import Enum
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain_core.embeddings import Embeddings
 
-
-class EmbeddingTypes(Enum):
-    OpenAIEmbeddings = "OpenAIEmbeddings"
+EmbeddingTypes = Enum("EmbeddingTypes", ["OpenAIEmbeddings"])
 
 
 def embedding_selector(emb_name: EmbeddingTypes) -> type[Embeddings] | None:
