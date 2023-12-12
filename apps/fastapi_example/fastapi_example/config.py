@@ -1,7 +1,7 @@
 import logging
 import os
 
-from ailab_apigateway.utils.read_text_file import readTextFile
+from fastapi_example.utils.read_text_file import readTextFile
 from dynaconf import Dynaconf
 
 HERE = os.path.dirname(os.path.abspath(__file__))

@@ -1,9 +1,6 @@
-import os
-import sys
 from operator import itemgetter
 from typing import List, Optional
 
-from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import ChatPromptTemplate
@@ -12,9 +9,6 @@ from langchain.schema.output_parser import StrOutputParser
 from langchain.schema.retriever import BaseRetriever
 from langchain.schema.runnable import RunnableLambda
 from langchain.schema.vectorstore import VectorStore
-
-sys.path.append(os.path.abspath("."))
-load_dotenv()
 
 
 class FAISSVectorStoreRetrieverWithScore(BaseRetriever):

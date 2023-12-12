@@ -1,9 +1,9 @@
 from langchain.vectorstores.pgvector import PGVector
 
-from .settings import IndexerSettings
+from ...config import settings
 
 
-def make_connection_string(settings: IndexerSettings) -> str:
+def make_connection_string() -> str:
     """Function taking a dictionary containing informations on a postgres database
     and formats it into a connection string
     """

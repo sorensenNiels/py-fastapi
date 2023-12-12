@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Callable, List, Optional, Union
 
-from ailab_apigateway.models.content import Content, ContentResponse
+from fastapi_example.models.content import Content, ContentResponse
 from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt

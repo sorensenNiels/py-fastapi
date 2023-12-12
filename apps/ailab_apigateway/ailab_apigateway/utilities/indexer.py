@@ -1,20 +1,16 @@
 import logging
 from typing import Any, Callable
 
-import dotenv
 from langchain.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores.faiss import FAISS
 from langchain.vectorstores.pgvector import PGVector
 from pydantic import BaseModel
 
+from ..config import settings
 from .directory_utils import initialize_dir_for_file
 from .embedding_selector import embedding_selector
 from .indexer_utils.postgres_methods import make_connection_string
-from .indexer_utils.settings import IndexerSettings
-
-logging.getLogger().setLevel(logging.INFO)
-dotenv.load_dotenv()
 
 
 class VecDBMethods(BaseModel):
@@ -43,13 +39,13 @@ def get_vecdb_method(vector_db_name: str) -> VecDBMethods:
     return vecdb_methods
 
 
-def get_extra_arguments(settings: IndexerSettings) -> dict:
+def get_extra_arguments() -> dict:
     """
     get extra arguments for the upsert method based on the database
     """
     arg_dict = {}
     if settings.database_type == "postgres":
-        arg_dict["connection_string"] = make_connection_string(settings=settings)
+        arg_dict["connection_string"] = make_connection_string()
         arg_dict["collection_name"] = settings.database_table
         arg_dict["pre_delete_collection"] = settings.indexer_override
     elif settings.database_type == "FAISS":
@@ -82,9 +78,7 @@ def split_document(doc_path: str, chunk_size: int, overlap: int) -> Any:
     return documents
 
 
-def index_from_document(
-    settings: IndexerSettings, embeddings_function: Callable, upsert_method: Callable
-) -> Any:
+def index_from_document(embeddings_function: Callable, upsert_method: Callable) -> Any:
     """
     Makes an index of the document.
     """
@@ -94,7 +88,7 @@ def index_from_document(
     logging.info(
         f"Created {len(docs)} vectors, using chunk_size={settings.chunk_size} and overlap={settings.overlap}"
     )
-    args_dict = get_extra_arguments(settings=settings)
+    args_dict = get_extra_arguments()
     index = upsert_method(documents=docs, embedding=embeddings_function(), **args_dict)
     return index
 
@@ -112,18 +106,14 @@ def write_database_to_file(
     save_function(path)
 
 
-def indexer(config: dict = {}, save_to_file: bool = False) -> None:
-    # get the settings from the .env file
-    settings = IndexerSettings(config)
+def indexer(save_to_file: bool = False) -> None:
     # get the methods associated with the selected database type
     vecdb_methods = get_vecdb_method(settings.database_type)
     # get the embeddings function by name
     embeddings = embedding_selector(settings.embeddings_name)
     # create a vector index starting from a document
     index = index_from_document(
-        embeddings_function=embeddings,
-        upsert_method=vecdb_methods.upsert,
-        settings=settings,
+        embeddings_function=embeddings, upsert_method=vecdb_methods.upsert
     )
     if save_to_file:
         # save the vector index to file

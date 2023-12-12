@@ -1,11 +1,15 @@
 import logging
 import os
+from .utilities.read_text_file import readTextFile
 
 from dynaconf import Dynaconf, Validator
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT_FOLDER = os.path.dirname(HERE)
 
+description = """
+ailab_apigateway API helps you do awesome stuff. 🚀
+"""
 
 settings = Dynaconf(
     envvar_prefix="PYTHON",
@@ -20,6 +24,9 @@ settings = Dynaconf(
     load_dotenv=False,
     validators=[
         Validator("DATABASE_TYPE", must_exist=True, is_in=["postgres", "FAISS"]),
+        Validator("EMBEDDINGS_NAME", must_exist=True, is_in=["OpenAIEmbeddings"]),
+        Validator("TOP_K", must_exist=True, is_type_of=int),
+        Validator("SIMILARITY_THRESHOLD", is_type_of=float, default=0.5),
     ],
 )
 
@@ -31,6 +38,12 @@ def setLogBasicConfig():
         format="%(asctime)s %(levelname)s %(name)s %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
+
+
+def getAPIVersion():
+    version = readTextFile(os.path.join(ROOT_FOLDER, "config", "VERSION"))
+    logging.info("API version: %s", version)
+    return version
 
 
 """
