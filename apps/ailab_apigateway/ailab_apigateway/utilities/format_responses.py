@@ -1,20 +1,18 @@
-from operator import attrgetter
+from abc import ABC
+from typing import override
 
 from langchain.schema import Document
 
 
-class Responder:
+class Responder(ABC):
     """
     base class for responder objects, given an input dictionary it returns only
-    the 'asnwer' field via the produce_response method.
+    the 'answer' field via the produce_response method.
     """
 
     def __init__(self, response_dict: dict) -> None:
-        self.response_dict = response_dict
+        self._response_dict = response_dict
 
-    response_dict = property(attrgetter("_response_dict"))
-
-    @response_dict.setter
     def response_dict(self, rd: dict) -> None:
         assert "answer" in rd, "'answer' key not found in response_dict"
         assert isinstance(
@@ -22,8 +20,8 @@ class Responder:
         ), "the content of the response_dict['answer'] is not a string"
         self._response_dict = rd
 
-    def produce_response(self) -> None:
-        return self.response_dict["answer"]
+    def produce_response(self):
+        return self._response_dict["answer"]
 
 
 class ResponderWithScore(Responder):
@@ -32,12 +30,10 @@ class ResponderWithScore(Responder):
     via the produce_response method.
     """
 
-    response_dict = property(attrgetter("_response_dict"))
-
     response_keys = ["answer", "scores"]
 
     # check override
-    @response_dict.setter
+    @override
     def response_dict(self, rd: dict) -> None:
         assert "answer" in rd, "'answer' key not found in response_dict"
         assert isinstance(
@@ -52,8 +48,8 @@ class ResponderWithScore(Responder):
         ), "the entries of the response_dict['scores'] list are not numbers (float or int)"
         self._response_dict = rd
 
-    def produce_response(self) -> None:
-        return {k: self.response_dict[k] for k in self.response_keys}
+    def produce_response(self) -> dict:
+        return {k: self._response_dict[k] for k in self.response_keys}
 
 
 class ResponderWithDocument(Responder):
@@ -62,12 +58,9 @@ class ResponderWithDocument(Responder):
     via the produce_response method.
     """
 
-    response_dict = property(attrgetter("_response_dict"))
-
     response_keys = ["answer", "documents"]
 
-    # check override
-    @response_dict.setter
+    @override
     def response_dict(self, rd: dict) -> None:
         assert "answer" in rd, "'answer' key not found in response_dict"
         assert isinstance(
@@ -86,5 +79,5 @@ class ResponderWithDocument(Responder):
             for doc in rd["documents"]
         ]
 
-    def produce_response(self) -> None:
-        return {k: self.response_dict[k] for k in self.response_keys}
+    def produce_response(self) -> dict:
+        return {k: self._response_dict[k] for k in self.response_keys}
