@@ -1,14 +1,15 @@
 import logging
 import os
-from .utilities.read_text_file import readTextFile
 
 from dynaconf import Dynaconf, Validator
+
+from .utilities.read_text_file import readTextFile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT_FOLDER = os.path.dirname(HERE)
 
 description = """
-ailab_apigateway API helps you do awesome stuff. 🚀
+The AI Lab API Gateway helps you do awesome stuff. 🚀
 """
 
 settings = Dynaconf(
