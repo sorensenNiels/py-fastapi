@@ -40,7 +40,7 @@ def setLogBasicConfig():
 # How to use this application settings
 
 ```
-from ailab_apigateway.config import settings
+from fastapi_example.config import settings
 ```
 
 ## Acessing variables
@@ -75,7 +75,7 @@ export fastapi_example_DB__uri="@jinja {{ this.db.uri | replace('db', 'data') }}
 
 ### Switching environments
 ```
-fastapi_example_ENV=production ailab_apigateway run
+fastapi_example_ENV=production fastapi_example run
 ```
 
 Read more on https://dynaconf.com

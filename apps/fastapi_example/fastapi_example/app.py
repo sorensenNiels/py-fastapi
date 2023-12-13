@@ -14,7 +14,7 @@ setLogBasicConfig()
 logger = logging.getLogger(__name__)
 
 description = """
-ailab_apigateway API helps you do awesome stuff. 🚀
+fastapi_example API helps you do awesome stuff. 🚀
 """
 
 
@@ -29,14 +29,14 @@ logger.info("---> Hello World: %s", hello_world())
 
 app = FastAPI(
     lifespan=lifespan,
-    title="ailab_apigateway",
+    title="fastapi_example",
     description=description,
     version=getAPIVersion(),
-    terms_of_service="http://ailab_apigateway.com/terms/",
+    terms_of_service="http://fastapi_example.com/terms/",
     contact={
         "name": "sorensenNiels",
-        "url": "http://ailab_apigateway.com/contact/",
-        "email": "sorensenNiels@ailab_apigateway.com",
+        "url": "http://fastapi_example.com/contact/",
+        "email": "sorensenNiels@fastapi_example.com",
     },
     license_info={
         "name": "The Unlicense",

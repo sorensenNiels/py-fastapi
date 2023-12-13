@@ -1,6 +1,6 @@
 .ONESHELL:
 ENV_PREFIX=$(shell python -c "if __import__('pathlib').Path('.venv/bin/pip').exists(): print('.venv/bin/')")
-PACKAGE_NAME=ailab_apigateway
+PACKAGE_NAME=fastapi_example
 POETRY_VERSION=1.7.1
 
 .PHONY: show
@@ -55,4 +55,16 @@ shell:            ## Open a shell in the project.
 
 start: 
 	echo "Starting FastAPI"
-	uvicorn ailab_apigateway.app:app
+	uvicorn fastapi_example.app:app
+
+docker-build:
+	echo "Building local docker image"
+	docker build -t fastapi_example --build-arg POETRY_VERSION=${POETRY_VERSION} -f Dockerfile ../..
+
+
+docker-run:
+	echo "Run local docker container"
+	@-docker volume create --name=fastapi_example
+	docker run -it --rm -v fastapi_example:/app/data -p 8000:8000 fastapi_example
+
+

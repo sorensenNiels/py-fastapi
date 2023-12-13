@@ -14,4 +14,4 @@ set -e
 # Export the variables
 # export MACHINE_SIGNATURE=$SIGNATURE
 
-exec gunicorn ailab_apigateway.app:app -w ${GUNICORN_WORKERS:-1} -k uvicorn.workers.UvicornWorker --bind=0.0.0.0:${PORT:-8000} --max-requests 1200 --max-requests-jitter 1000 --access-logfile -
+exec gunicorn fastapi_example.app:app -w ${GUNICORN_WORKERS:-1} -k uvicorn.workers.UvicornWorker --bind=0.0.0.0:${PORT:-8000} --max-requests 1200 --max-requests-jitter 1000 --access-logfile -

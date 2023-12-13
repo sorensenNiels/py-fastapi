@@ -20,17 +20,6 @@ clean:            ## Clean unused files.
 	@rm -rf .venv
 
 
-docker-build-ailab_apigateway:
-	echo "Building local docker image"
-	docker build -t ailab_apigateway --build-arg POETRY_VERSION=${POETRY_VERSION} -f Dockerfile.ailab_apigateway .
-
-
-docker-run-ailab_apigateway:
-	echo "Run local docker container"
-	@-docker volume create --name=ailab_apigateway
-	docker run -it --rm -v ailab_apigateway:/app/data -p 8000:8000 ailab_apigateway
-
-
 postgresql:
 	docker run --name postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres
 
